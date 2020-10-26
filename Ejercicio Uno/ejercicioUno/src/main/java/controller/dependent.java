@@ -5,10 +5,13 @@
  */
 package controller;
 
+import java.io.Serializable;
+
 /**
  *
  * @author SANDRA
  */
-public class dependent {
+
+public class dependent implements Serializable {
     
 }
