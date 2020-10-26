@@ -12,8 +12,10 @@ import javax.enterprise.context.Conversation;
 import javax.inject.Inject;
 
 /**
- *
- * @author SANDRA
+ * Controlador de Conversation
+ * @author Sandra Moreno - Jhonattan Pulido
+ * @version 1.0.0
+ * @since 26/10/2020
  */
 @Named(value = "conversationController")
 @ConversationScoped
@@ -22,16 +24,31 @@ public class ConversationController implements Serializable {
     /**
      * Creates a new instance of ConversationController
      */
+    //Constructor
     public ConversationController() {
     }
-        private int numero = 0;
     
+    //Numero contador
+    private int numero = 0;
+    
+    //Bean que controla el ciclo de vida de la conversación
+    //Se obtiene por medio de inyección
     @Inject
     private Conversation conversation;
         
-
+    //Funcion de contar
     public void contar(){
         numero++;
+    }
+    
+    public void iniciarConversacion(){
+        if(conversation.isTransient())
+            conversation.begin();
+    }
+    
+    public void finConversacion(){
+        if(!conversation.isTransient())
+            conversation.end();
     }
     
     public int getNumero() {

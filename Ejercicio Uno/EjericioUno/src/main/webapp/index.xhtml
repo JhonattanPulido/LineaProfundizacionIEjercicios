@@ -10,6 +10,9 @@
         <h:commandButton action="#{conversationController.contar()}" value="Contar"/>
         <h:outputLabel value="Contar: "/>
         <h:outputText value="#{conversationController.numero}"/>
+        
+        <h:commandButton action="#{conversationController.iniciarConversacion}" value="Iniciar" />
+        <h:commandButton action="#{conversationController.finConversacion}" value="Fin" />
         </h:form>
 
     </h:body>
