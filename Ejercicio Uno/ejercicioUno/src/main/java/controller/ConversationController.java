@@ -30,6 +30,11 @@ public class ConversationController implements Serializable {
     @Inject
     private Conversation conversation;
         
+
+    public void contar(){
+        numero++;
+    }
+    
     public int getNumero() {
         return numero;
     }
@@ -37,5 +42,4 @@ public class ConversationController implements Serializable {
     public void setNumero(int numero) {
         this.numero = numero;
      }
-
 }
