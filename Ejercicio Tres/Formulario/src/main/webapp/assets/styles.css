@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Regular';
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html, body {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-flow: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #fafafa;
+}
+
+form {
+    display: flex;
+    width: 800px;
+    height: auto;
+    padding: 35px;
+    flex-flow: column;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.12);
+}
+
+form h1, h2 {
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+    justify-content: center;
+    font-family: 'Medium';
+    color: #0652DD;
+}
+
+form h2 {
+    margin-bottom: 0;
+    color: #2f3640;
+}
+
+form .two-columns-cntr {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-flow: row;
+    margin-bottom: 15px;
+}
+
+form .two-columns-cntr .input-cntr {
+    display: flex;
+    width: 50%;
+    height: auto;
+    flex-flow: column;
+}
+
+form .two-columns-cntr .input-cntr:first-child {
+    margin-right: 30px;
+}
+form .two-columns-cntr .input-cntr span {
+    display: flex;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-family: 'Medium';
+}
+
+form .two-columns-cntr .input-cntr input {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    font-family: 'Light';
+}
+
+form input[type="submit"] {
+    display: flex;
+    width: 120px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: 'Medium';
+    font-size: 16px;
+    background-color: #0652DD;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
