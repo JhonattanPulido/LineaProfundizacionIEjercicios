@@ -5,6 +5,7 @@
  */
 package com.mycompany.controller;
 
+import java.awt.event.ActionEvent;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
@@ -17,24 +18,8 @@ import javax.enterprise.context.Dependent;
 @Dependent
 public class actionListener {
 
-      private String texto;
-    /**
-     * Creates a new instance of action
-     */
-    public actionListener() {
-    }
-    
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    @PostConstruct
-    public void inicial(){
-        texto = "";
-    }
+   public void actionEvento(ActionEvent event){
+       System.out.println("Metodo del evento");
+   }
 
 }

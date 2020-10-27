@@ -5,22 +5,23 @@
     <h:head>
         <title>Conversation</title>
         <style type="text/css">
-         body {
-            color: black;
-            background-color: azure}
+            body {
+                color: black;
+                background-color: azure}
         </style>
     </h:head>
     <h:body>
         <h:form>
-        <h:commandButton action="#{conversationController.contar()}" value="Contar"/>
-        <h:outputLabel value="Contar: "/>
-        <h:outputText value="#{conversationController.numero}"/>
-        <br/>
-        <h:commandButton action="#{conversationController.iniciarConversacion}" value="Iniciar" />
-        <br/>
-        <h:commandButton action="#{conversationController.finConversacion}" value="Fin" />
+            <h:commandButton action="#{conversationController.contar()}" value="Contar"/>
+            <h:outputLabel value="Contar: "/>
+            <h:outputText value="#{conversationController.numero}"/>
+            <br/>
+            <h:commandButton action="#{conversationController.iniciarConversacion}" value="Iniciar" />
+            <br/>
+            <h:commandButton action="#{conversationController.finConversacion}" value="Fin" />
         </h:form>
-      <a href="dependent.xhtml">Siguiente</a>
+        <a href="dependent.xhtml">Siguiente</a>
+      
     </h:body>
 </html>
 
