@@ -6,6 +6,7 @@
 package com.mycompany.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
@@ -15,11 +16,16 @@ import javax.enterprise.context.Dependent;
  * @author SANDRA
  */
 @Named(value = "actionListener")
-@Dependent
-public class actionListener {
+//@Dependent
+public class actionListener implements ActionListener {
 
    public void actionEvento(ActionEvent event){
        System.out.println("Metodo del evento");
    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        System.out.println("Hola mijo!");
+    }
 
 }
