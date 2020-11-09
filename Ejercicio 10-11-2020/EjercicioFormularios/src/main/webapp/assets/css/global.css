@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Regular';
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html, body {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+}
+
+.body-image {
+    background-image: url('../img/bg.jpg');
+    background-size: cover;    
+}
+
+#todo-cntr {
+    display: flex;
+    width: 50%;
+    height: auto;
+    flex-flow: column;    
+}
+
+#todo-cntr .title-cntr {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-flow: row;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.form-title {
+    font-size: 50px;
+    font-family: 'Medium';
+}
+
+.form-title:last-child {
+    margin-left: 10px;
+    color: #F79F1F;
+}
+
+#todo-cntr #form {
+    display: flex;
+    width: 100%;
+    height: auto;    
+    flex-flow: column;
+    align-items: center;
+}
+
+#todo-cntr #form .input-cntr {
+    display: flex;
+    width: 260px;
+    height: auto;
+    flex-flow: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#todo-cntr #form .input-cntr .input {
+    display: flex;
+    width: 100%;
+    padding: 0 12px;
+    box-shadow: none;
+    font-family: 'Light';
+    border-color: #999;
+    border-radius: 5px;
+}
+
+#todo-cntr #form .input-cntr .form-button {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+}

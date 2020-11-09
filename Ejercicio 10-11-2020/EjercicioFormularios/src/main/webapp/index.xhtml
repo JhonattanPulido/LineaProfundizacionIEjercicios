@@ -1,14 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Login | Action</title>
+        <link rel="stylesheet" href="./assets/css/global.css" type="text/css" />        
+        <link rel="stylesheet" href="./assets/font/font.css" type="text/css" />
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+    <!--<h:body class="body-image"> --> <!-- Imagen de fondo -->               
+        <section id="todo-cntr">
+            <div class="title-cntr">
+                <h:outputText value="Inciar sesión" class="form-title" />
+                <h:outputText value="| Action" class="form-title" />
+            </div>            
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" sticky="true" />                 
+                <div class="input-cntr">                        
+                    <p:inputText id="datoingreso" value="#{estudianteController.estudiante.codigo}" class="input" style="height: 40px" placeholder="Código estudiantil" autocomplete="off"/>
+                </div>
+                <div class="input-cntr">                    
+                    <p:password id="clave" value="#{estudianteController.estudiante.clave}" class="input" style="height: 40px" placeholder="Clave" />
+                </div>
+                <div class="input-cntr">
+                    <p:commandButton action="#{estudianteController.iniciarSesion()}" value="Iniciar sesión" ajax="false" class="form-button" update="@form" />
+                </div>                
+            </h:form>
+        </section>        
     </h:body>
 </html>
 
