@@ -4,8 +4,8 @@ package com.mycompany.ejercicioformularios.controller;
 // Librerías
 import com.mycompany.ejercicioformularios.models.Vehiculo;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -16,7 +16,7 @@ import javax.faces.context.FacesContext;
  * @version 1.0.0
  */
 @Named(value = "vehiculoController")
-@SessionScoped
+@RequestScoped
 public class VehiculoController implements Serializable {
 
     // Variables

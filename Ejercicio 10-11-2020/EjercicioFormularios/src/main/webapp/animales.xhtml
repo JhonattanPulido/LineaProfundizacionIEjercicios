@@ -4,34 +4,36 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Login | Action</title>
+        <title>Login | Action Listener</title>
         <link rel="stylesheet" href="./assets/css/global.css" type="text/css" />        
         <link rel="stylesheet" href="./assets/font/font.css" type="text/css" />
     </h:head>
-    <h:body>
+    <h:body class="body-image">
+        
         <div class="menu-cntr">
             <h:link class="link" outcome="index" value="Estudiantes" />
             <h:link class="link" outcome="vehiculo" value="Vehículos" />
             <h:link class="link" outcome="animales" value="Animales" />
         </div>
-        <section class="todo-cntr">
+        <section class="todo-cntr todo-cntr-bc">
             <div class="title-cntr">
                 <h:outputText value="Inciar sesión" class="form-title" />
-                <h:outputText value="| Action" class="form-title" />
-            </div>            
-            <h:form class="form">
+                <h:outputText value="| Action Listener" class="form-title" />
+            </div> 
+            <h:form class="form">            
                 <p:growl id="growl" showDetail="true" sticky="true" />                 
                 <div class="input-cntr">                        
-                    <p:inputText id="datoingreso" value="#{estudianteController.estudiante.codigo}" class="input" style="height: 40px" placeholder="Código estudiantil" autocomplete="off"/>
-                </div>
-                <div class="input-cntr">                    
-                    <p:password id="clave" value="#{estudianteController.estudiante.clave}" class="input" style="height: 40px" placeholder="Clave" />
-                </div>
-                <div class="input-cntr">
-                    <p:commandButton action="#{estudianteController.iniciarSesion()}" value="Iniciar sesión" ajax="false" class="form-button" update="@form" />
-                </div>                
+                        <p:inputText id="ingreso" value="#{animalesController.animales.identificacion}" class="input" style="height: 40px" placeholder="Identificación" autocomplete="off"/>
+                    </div>
+                    <div class="input-cntr">                    
+                        <p:password id="password" value="#{animalesController.animales.clave}" class="input" style="height: 40px" placeholder="Clave" />
+                    </div>
+                    <div class="input-cntr">
+                        <p:commandButton actionListener="#{animalesController.iniciarSesion()}" value="Iniciar sesión" ajax="true" update="@form" class="form-button" />
+                    </div>         
             </h:form>
         </section>            
     </h:body>
 </html>
+
 

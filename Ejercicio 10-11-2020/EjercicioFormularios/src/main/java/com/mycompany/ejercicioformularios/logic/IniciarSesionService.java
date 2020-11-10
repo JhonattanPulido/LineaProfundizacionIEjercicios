@@ -1,5 +1,6 @@
 // Paquetes
 package com.mycompany.ejercicioformularios.logic;
+import com.mycompany.ejercicioformularios.models.Animales;
 import com.mycompany.ejercicioformularios.models.Estudiante;
 import com.mycompany.ejercicioformularios.models.Vehiculo;
 
@@ -30,7 +31,7 @@ public class IniciarSesionService {
             estudiante.setApellido("Pulido");
             estudiante.setPromedio(4);
             return estudiante;
-            
+
         } else
             return null;
     }   
@@ -49,5 +50,21 @@ public class IniciarSesionService {
             
         } else
             return null;
+    }
+
+    /**
+     * Validar el inicio de sesión de un animal
+     * @param animales
+     * @return La información del animal
+     */
+    public Animales IniciarSesionAnimales(Animales animales) {
+        if (animales.getIdentificacion().equals("1010019943") && animales.getClave().equals("12345678")) {
+
+            animales.setNombre("peluche");
+            return animales;
+
+        } else {
+            return null;
+        }
     }
 }

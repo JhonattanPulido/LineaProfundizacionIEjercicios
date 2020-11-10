@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 // Librerías
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
  * @version 1.0.0
  */
 @Named(value = "estudianteController")
-@SessionScoped
+@RequestScoped
 public class EstudianteController implements Serializable {
     
     // Variables

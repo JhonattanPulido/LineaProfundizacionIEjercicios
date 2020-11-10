@@ -12,6 +12,7 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: #fff;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
 }
@@ -21,14 +22,50 @@ html, body {
     background-size: cover;    
 }
 
-#todo-cntr {
+.menu-cntr {
     display: flex;
-    width: 50%;
+    width: auto;
     height: auto;
-    flex-flow: column;    
+    margin-bottom: 20px;    
 }
 
-#todo-cntr .title-cntr {
+.menu-cntr .link {
+    font-family: 'Medium';
+    text-decoration: none;
+    background-color: #FFC312; /* Green */
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;    
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    border-bottom: 3px solid #F79F1F;
+    transition: all .2s ease-in-out;
+}
+
+.menu-cntr .link:nth-child(2) {
+    margin: 0 20px;
+}
+
+.menu-cntr .link:hover {
+    background-color: #F79F1F;
+}
+
+.todo-cntr {
+    display: flex;
+    width: auto;
+    height: auto;
+    flex-flow: column;        
+}
+
+.todo-cntr-bc {
+    padding: 35px 30px;
+    background-color: rgba(255,255,255,.8);
+    border-radius: 8px;
+}
+
+.todo-cntr .title-cntr {
     display: flex;
     width: 100%;
     height: auto;
@@ -47,24 +84,25 @@ html, body {
     color: #F79F1F;
 }
 
-#todo-cntr #form {
+.todo-cntr .form {
     display: flex;
     width: 100%;
     height: auto;    
     flex-flow: column;
     align-items: center;
+    justify-content: center;
 }
 
-#todo-cntr #form .input-cntr {
+.todo-cntr .form .input-cntr {
     display: flex;
     width: 260px;
     height: auto;
     flex-flow: column;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 15px;    
 }
 
-#todo-cntr #form .input-cntr .input {
+.todo-cntr .form .input-cntr .input {
     display: flex;
     width: 100%;
     padding: 0 12px;
@@ -74,7 +112,7 @@ html, body {
     border-radius: 5px;
 }
 
-#todo-cntr #form .input-cntr .form-button {
+.todo-cntr .form .input-cntr .form-button {
     display: flex;
     width: 100%;
     height: 40px;
