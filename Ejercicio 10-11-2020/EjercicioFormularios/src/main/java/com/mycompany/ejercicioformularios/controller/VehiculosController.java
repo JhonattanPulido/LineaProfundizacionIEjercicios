@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Paquetes
 package com.mycompany.ejercicioformularios.controller;
-
+        
+// Librerías
 import com.mycompany.ejercicioformularios.logic.IniciarSesionService;
 import com.mycompany.ejercicioformularios.models.Vehiculo;
 import java.io.IOException;
@@ -15,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author jhona
+ * Controlador de vehículo
+ * @author Sandra Moreno - Jhonattan Pulido
+ * @since 10/11/2020
+ * @version 1.0.0
  */
 @WebServlet(name = "VehiculosController", urlPatterns = {"/VehiculosController"})
 public class VehiculosController extends HttpServlet {
@@ -26,12 +25,7 @@ public class VehiculosController extends HttpServlet {
     /**
      * Objeto con los datos del vehículo
      */
-    private Vehiculo vehiculo;
-
-    public VehiculosController() {
-        
-        vehiculo = new Vehiculo();
-    }        
+    private Vehiculo vehiculo;   
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,6 +39,7 @@ public class VehiculosController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 
+        vehiculo = new Vehiculo();
         vehiculo.setPlaca(request.getParameter("IPlaca"));
         vehiculo.setClave(request.getParameter("IClave"));
         

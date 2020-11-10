@@ -1,19 +1,15 @@
 <%-- 
-    Document   : vehiculo
+    Document   : vehiculo-error
     Created on : 10/11/2020
     Author     : Sandra Moreno - Jhonattan Pulido
 --%>
 
-<%@page import="com.mycompany.ejercicioformularios.models.Vehiculo"%>
-<%
-    Vehiculo vehiculo = (Vehiculo)request.getSession().getAttribute("vehiculo");
-%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Vehículo | Inicio de sesión correcto</title>
+        <title>Vehículo | Inicio de sesión incorrecto</title>
         <link rel="stylesheet" href="./assets/css/global.css" type="text/css" />        
         <link rel="stylesheet" href="./assets/font/font.css" type="text/css" />
     </head>
@@ -29,10 +25,8 @@
                 <span class="form-title">| Submit</span>                
             </div>
             <div class="info-cntr">
-                <h2>Bienvenido <%= vehiculo.getNombrePropietario() %></h2>                   
-                <span>Placa: <%= vehiculo.getPlaca()%></span>                
-                <span>Marca: <%= vehiculo.getMarca()%></span>                
+                <h2 style="color: red;">Datos incorrectos, intentelo nuevamete</h2>                                                 
             </div>
-        </section>        
+        </section>  
     </body>
 </html>

@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Login | Action</title>
+        <title>Login | Submit</title>
         <link rel="stylesheet" href="./assets/css/global.css" type="text/css" />        
         <link rel="stylesheet" href="./assets/font/font.css" type="text/css" />
     </h:head>
@@ -22,10 +22,10 @@
             <form action="VehiculosController" method="post" class="form">
                 <p:growl id="growl" showDetail="true" sticky="true" />
                 <div class="input-cntr">
-                    <input type="text" name="IPlaca" class="input" style="height: 40px" placeholder="Placa" autocomplete="off"/><br/>
+                    <input type="text" name="IPlaca" class="input" style="height: 40px" placeholder="Placa" autocomplete="off" required="true" pattern="[0-9A-Z]{6}"/><br/>
                 </div>                
                 <div class="input-cntr">
-                    <input type="password" name="IClave" class="input" style="height: 40px" placeholder="Clave"/><br/>
+                    <input type="password" name="IClave" class="input" style="height: 40px" placeholder="Clave" required="true" pattern="[a-zA-Z0-9@#*%_+-]{8,20}"/><br/>
                 </div>                
                 <div class="input-cntr">
                     <button type="submit" class="form-button">Iniciar sesión</button>
