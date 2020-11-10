@@ -74,6 +74,18 @@ html, body {
     margin-bottom: 30px;
 }
 
+.todo-cntr .info-cntr {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-flow: column;
+    align-items: center;    
+}
+
+.todo-cntr .info-cntr span {
+    margin-top: 15px;
+}
+
 .form-title {
     font-size: 50px;
     font-family: 'Medium';
