@@ -1,6 +1,7 @@
 // Paquetes
 package com.mycompany.ejercicioformularios.logic;
 import com.mycompany.ejercicioformularios.models.Estudiante;
+import com.mycompany.ejercicioformularios.models.Vehiculo;
 
 /**
  * Clase servicio de iniciar sesión
@@ -33,4 +34,20 @@ public class IniciarSesionService {
         } else
             return null;
     }   
+    
+    /**
+     * Validar el inicio de sesión de un vehículo
+     * @param vehiculo
+     * @return La información del vehículo
+     */
+    public Vehiculo IniciarSesionVehiculo(Vehiculo vehiculo) {
+        if (vehiculo.getPlaca().equals("ABC123") && vehiculo.getClave().equals("12345678")) {
+        
+            vehiculo.setNombrePropietario("Jhonattan Pulido");
+            vehiculo.setMarca("Renault");            
+            return vehiculo;
+            
+        } else
+            return null;
+    }
 }
