@@ -27,6 +27,21 @@ import javax.ws.rs.core.MediaType;
 public class EstudianteController {
     
     /**
+     * Método para crear un estudiante 
+     * @param estudiante objeto con los datos del estudiante
+     * @return true si el estudiante fué agregado correctametne
+     */
+    @POST
+    @Path("/crear")
+    public String crearEstudiante(Estudiante estudiante){
+        try {
+            return new DEstudiante().crearEstudiante(estudiante) ? "201 Created: Estudiante creado correctamente" : "409 Conflict: El número de documento ya está en uso.";            
+        } catch (Exception ex) {
+            return "500 Internal server error: Hubó un problema en el servidor";
+        } 
+    }
+    
+    /**
      * Método para obtener todos los estudiantes registrados
      * @return lista de estudiantes
      */
@@ -53,42 +68,51 @@ public class EstudianteController {
         } catch (Exception ex) {
             return null;
         }  
-    }
+    }           
     
-    
-    @POST
-    @Path("/crear")
-    public boolean crearEstudiante(Estudiante estudiante){
-        try {
-            new DEstudiante().crearEstudiante(estudiante);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        } 
-    }
-    
-    @Path("/editar")
+    /**
+     * Método para actualizar los datos de un estudiante
+     * @param estudiante
+     * @return 
+     */
     @PUT
-    public short editar(Estudiante estudiante){
+    @Path("/actualizar")    
+    public String actualizarEstudiante(Estudiante estudiante){
         try {
-            new DEstudiante().actualizarEstudiante(estudiante);
+            switch (new DEstudiante().actualizarEstudiante(estudiante)) {
+                
+                // Estudiante se actualizó correctamente
+                case 0:
+                    return "200 Ok: Estudiante actualizado correctamente";                    
+                   
+                // No se encontró al estudiante    
+                case 1:
+                    return "409 Confict: No se encontró el estudiante";
+                
+                // El número de documento ya está en uso
+                case 2:
+                    return "409 Confict: El número de documento ya está en uso";                                
+            }
+            
+            return "500 Internal server error: Hubó un problema en el servidor";                    
+            
         } catch (Exception ex) {
-            return 0;
-        }   
-        return 0;
+            return "500 Internal server error: Hubó un problema en el servidor";                    
+        }           
     }
     
     /**
      * Método para eliminar un estudiante filtrado por id
      * @param id - Identificación del estudiante
+     * @return 
      */
-    @Path("/eliminar")
     @DELETE
-    public void eliminar(@PathParam("id") int id){
+    @Path("/eliminar/{ id }")    
+    public String eliminarEstudiante(@PathParam("id") short id){
         try {
-            new DEstudiante().eliminarEstudiante((short) 1);
+            return new DEstudiante().eliminarEstudiante(id) ? "200 Ok: Estudiante eliminado correctamente" : "409 Conflict: No se encontró el estudiante";
         } catch (Exception ex) {
-            
+            return "500 Internal server error: Hubó un problema en el servidor";
         }  
     }
 }

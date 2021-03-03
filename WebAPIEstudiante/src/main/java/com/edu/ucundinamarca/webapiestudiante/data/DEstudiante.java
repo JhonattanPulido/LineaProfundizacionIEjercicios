@@ -24,7 +24,7 @@ public class DEstudiante implements Serializable {
 
     // Constructor
     public DEstudiante() throws Exception {
-        //prepararConexion();
+        
     }  
 
     // Métodos
@@ -37,6 +37,18 @@ public class DEstudiante implements Serializable {
     public boolean crearEstudiante(Estudiante estudiante) throws SQLException {
         
         try {
+            
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            
+            dbContext = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+                "postgres",
+                "2220"    
+            );
         
             CallableStatement funcion = dbContext.prepareCall("{ call f_crear_estudiante(?,?,?) }");
             funcion.setString(1, estudiante.getNombre());
@@ -44,9 +56,12 @@ public class DEstudiante implements Serializable {
             funcion.setString(3, estudiante.getNumeroDocumento());            
             
             ResultSet respuesta = funcion.executeQuery();       
-            System.out.println("La respuesta es: " + respuesta.getBoolean(0));
             
-            return respuesta.getBoolean(0);
+            while (respuesta.next()) {                
+                return respuesta.getBoolean(1);
+            }            
+                        
+            return false;
             
         } catch (SQLException ex) { throw ex; }
     }
@@ -112,17 +127,21 @@ public class DEstudiante implements Serializable {
                 "2220"    
             );
         
-            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante(?) }");
+            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante_id(?) }");
             funcion.setShort(1, id);            
             
             ResultSet respuesta = funcion.executeQuery();                   
             
-            return new Estudiante(
-                respuesta.getShort("id"),
-                respuesta.getString("nombre"),
-                respuesta.getString("apellido"),
-                respuesta.getString("numero_documento")
-            );
+            while (respuesta.next()) {
+                return new Estudiante(
+                    (short) respuesta.getShort("id"),
+                    respuesta.getString("nombre"),
+                    respuesta.getString("apellido"),
+                    respuesta.getString("numero_documento")
+                );
+            }                        
+            
+            return null;
             
         } catch (SQLException ex) { throw ex; }
     }
@@ -136,16 +155,31 @@ public class DEstudiante implements Serializable {
     
         try {
         
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            
+            dbContext = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+                "postgres",
+                "2220"    
+            );
+            
             CallableStatement funcion = dbContext.prepareCall("{ call f_actualizar_estudiante(?,?,?,?) }");
             funcion.setShort(1, estudiante.getId());
             funcion.setString(2, estudiante.getNombre());
             funcion.setString(3, estudiante.getApellido());                          
             funcion.setString(4, estudiante.getNumeroDocumento());
             
-            ResultSet respuesta = funcion.executeQuery();       
-            System.out.println("La respuesta es: " + respuesta.getShort(0));
+            ResultSet respuesta = funcion.executeQuery();                   
             
-            return respuesta.getShort(0);
+            while (respuesta.next()) {                
+                return respuesta.getShort(1);
+            }   
+            
+            return 3;
             
         } catch (SQLException ex) { throw ex; }
     }
@@ -159,24 +193,6 @@ public class DEstudiante implements Serializable {
     
         try {
         
-            CallableStatement funcion = dbContext.prepareCall("{ call f_eliminar_estudiante(?) }");
-            funcion.setShort(1, id);            
-            
-            ResultSet respuesta = funcion.executeQuery();                   
-            
-            return respuesta.getBoolean(0);
-            
-        } catch (SQLException ex) { throw ex; }
-    }
-    
-    /**
-     * Método para preparar la conexión con la base de datos
-     */
-    /*private boolean prepararConexion() throws Exception {
-    
-<<<<<<< HEAD
-        try {
-        
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
@@ -186,14 +202,20 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "sami2010"    
+                "2220"    
             );
-=======
-        try {                    
->>>>>>> 9854bdf075d3a99dbd9e2c46253a2f149f65156b
             
-            return true;
+            CallableStatement funcion = dbContext.prepareCall("{ call f_eliminar_estudiante(?) }");
+            funcion.setShort(1, id);            
             
-        } catch(SQLException ex) { throw ex; }
-    }*/
+            ResultSet respuesta = funcion.executeQuery();                   
+            
+            while(respuesta.next()) {
+                return respuesta.getBoolean(1);
+            }                        
+            
+            return false;
+            
+        } catch (SQLException ex) { throw ex; }
+    }        
 }
