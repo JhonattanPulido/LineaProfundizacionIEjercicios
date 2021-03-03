@@ -24,7 +24,7 @@ public class DEstudiante implements Serializable {
 
     // Constructor
     public DEstudiante() throws Exception {
-        prepararConexion();
+        //prepararConexion();
     }  
 
     // Métodos
@@ -58,8 +58,20 @@ public class DEstudiante implements Serializable {
     public ArrayList<Estudiante> leerEstudiantes() throws SQLException {
     
         try {
+            
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            
+            dbContext = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+                "postgres",
+                "2220"    
+            );
         
-            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiantes() }");            
+            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante() }");            
             
             ResultSet respuesta = funcion.executeQuery();                   
             
@@ -87,6 +99,18 @@ public class DEstudiante implements Serializable {
     public Estudiante leerEstudiante(short id) throws SQLException {
     
         try {
+            
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            
+            dbContext = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+                "postgres",
+                "2220"    
+            );
         
             CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante(?) }");
             funcion.setShort(1, id);            
@@ -148,24 +172,12 @@ public class DEstudiante implements Serializable {
     /**
      * Método para preparar la conexión con la base de datos
      */
-    private boolean prepararConexion() throws Exception {
+    /*private boolean prepararConexion() throws Exception {
     
-        try {
-        
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
-            
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/disquera", // Cambiar el nombre de la base de datos
-                "postgres",
-                "2220"    
-            );
+        try {                    
             
             return true;
             
         } catch(SQLException ex) { throw ex; }
-    }
+    }*/
 }

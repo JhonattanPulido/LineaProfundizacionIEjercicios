@@ -42,6 +42,10 @@ public class EstudianteController {
     @GET
     @Path("/leer/{ id }")
     public Estudiante leerEstudiante(@PathParam("id") short id) {
-        return new Estudiante((short) 1, "Jhonattan", "Pulido", "1000689384");
+        try {
+            return new DEstudiante().leerEstudiante(id);
+        } catch (Exception ex) {
+            return null;
+        }  
     }
 }
