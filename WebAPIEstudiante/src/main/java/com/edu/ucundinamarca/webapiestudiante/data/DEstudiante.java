@@ -59,7 +59,7 @@ public class DEstudiante implements Serializable {
     
         try {
         
-            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiantes() }");            
+            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante() }");            
             
             ResultSet respuesta = funcion.executeQuery();                   
             
@@ -159,9 +159,9 @@ public class DEstudiante implements Serializable {
             }
             
             dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/disquera", // Cambiar el nombre de la base de datos
+                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
             
             return true;

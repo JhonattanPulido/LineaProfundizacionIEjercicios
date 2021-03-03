@@ -6,9 +6,15 @@ import java.util.ArrayList;
 
 // Importaciones
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Controlador estudiante
@@ -43,5 +49,42 @@ public class EstudianteController {
     @Path("/leer/{ id }")
     public Estudiante leerEstudiante(@PathParam("id") short id) {
         return new Estudiante((short) 1, "Jhonattan", "Pulido", "1000689384");
+    }
+    
+    
+    @POST
+    @Path("/crear")
+    public boolean crearEstudiante(Estudiante estudiante){
+        try {
+            new DEstudiante().crearEstudiante(estudiante);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        } 
+    }
+    
+    @Path("/editar")
+    @PUT
+    public short editar(Estudiante estudiante){
+        try {
+            new DEstudiante().actualizarEstudiante(estudiante);
+        } catch (Exception ex) {
+            return 0;
+        }   
+        return 0;
+    }
+    
+    /**
+     * Método para eliminar un estudiante filtrado por id
+     * @param id - Identificación del estudiante
+     */
+    @Path("/eliminar")
+    @DELETE
+    public void eliminar(@PathParam("id") int id){
+        try {
+            new DEstudiante().eliminarEstudiante((short) 1);
+        } catch (Exception ex) {
+            
+        }  
     }
 }
