@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Controlador estudiante
@@ -33,11 +34,17 @@ public class EstudianteController {
      */
     @POST
     @Path("/crear")
-    public String crearEstudiante(Estudiante estudiante){
+    public Response crearEstudiante(Estudiante estudiante){
         try {
-            return new DEstudiante().crearEstudiante(estudiante) ? "201 Created: Estudiante creado correctamente" : "409 Conflict: El número de documento ya está en uso.";            
+            return new DEstudiante().crearEstudiante(estudiante) ? Response.status(Response.Status.ACCEPTED)
+                    .entity(estudiante)
+                    .build() : Response.status(Response.Status.CONFLICT)
+                                        .entity(estudiante)
+                                        .build();            
         } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                           .entity("Fallo en el servidor")
+                           .build();
         } 
     }
     
@@ -47,7 +54,7 @@ public class EstudianteController {
      */
     @GET
     @Path("/leer")
-    public ArrayList<Estudiante> leerEstudiantes() throws Exception {
+    public  ArrayList<Estudiante> leerEstudiantes() throws Exception {
         try {
             return new DEstudiante().leerEstudiantes();
         } catch (Exception ex) {
@@ -62,11 +69,14 @@ public class EstudianteController {
      */
     @GET
     @Path("/leer/{ id }")
-    public Estudiante leerEstudiante(@PathParam("id") short id) {
+    public Response leerEstudiante(@PathParam("id") short id) {
         try {
-            return new DEstudiante().leerEstudiante(id);
+            new DEstudiante().leerEstudiante(id);
+            return Response.status(Response.Status.OK)
+                       .build();
         } catch (Exception ex) {
-            return null;
+            return Response.status(Response.Status.BAD_REQUEST)
+                          .build();
         }  
     }           
     
@@ -76,28 +86,35 @@ public class EstudianteController {
      * @return 
      */
     @PUT
-    @Path("/actualizar")    
-    public String actualizarEstudiante(Estudiante estudiante){
+    @Path("/actualizar") 
+    public Response actualizarEstudiante(Estudiante estudiante){
         try {
             switch (new DEstudiante().actualizarEstudiante(estudiante)) {
                 
                 // Estudiante se actualizó correctamente
                 case 0:
-                    return "200 Ok: Estudiante actualizado correctamente";                    
+                     return Response.status(Response.Status.OK)
+                          .build();                   
                    
                 // No se encontró al estudiante    
                 case 1:
-                    return "409 Confict: No se encontró el estudiante";
+                    return Response.status(Response.Status.CONFLICT)
+                          .entity("No se encontro el estudiante")
+                          .build(); 
                 
                 // El número de documento ya está en uso
                 case 2:
-                    return "409 Confict: El número de documento ya está en uso";                                
+                    return Response.status(Response.Status.CONFLICT)
+                          .entity("El numero de documento ya esta en uso")
+                          .build();                                 
             }
             
-            return "500 Internal server error: Hubó un problema en el servidor";                    
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                          .build();                     
             
         } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";                    
+             return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                          .build();                     
         }           
     }
     
@@ -107,12 +124,15 @@ public class EstudianteController {
      * @return 
      */
     @DELETE
-    @Path("/eliminar/{ id }")    
-    public String eliminarEstudiante(@PathParam("id") short id){
+    @Path("/eliminar/{ id }") 
+    public Response eliminarEstudiante(@PathParam("id") short id) {
         try {
-            return new DEstudiante().eliminarEstudiante(id) ? "200 Ok: Estudiante eliminado correctamente" : "409 Conflict: No se encontró el estudiante";
+            return new DEstudiante().eliminarEstudiante(id) ? Response.status(Response.Status.OK)
+                    .build() : Response.status(Response.Status.CONFLICT)
+                            .build();
         } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";
-        }  
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                    .build();
+        }
     }
 }

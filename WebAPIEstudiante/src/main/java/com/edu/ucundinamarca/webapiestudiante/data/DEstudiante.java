@@ -47,7 +47,7 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
         
             CallableStatement funcion = dbContext.prepareCall("{ call f_crear_estudiante(?,?,?) }");
@@ -83,7 +83,7 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
         
             CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante() }");            
@@ -124,7 +124,7 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
         
             CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante_id(?) }");
@@ -164,7 +164,7 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
             
             CallableStatement funcion = dbContext.prepareCall("{ call f_actualizar_estudiante(?,?,?,?) }");
@@ -202,7 +202,7 @@ public class DEstudiante implements Serializable {
             dbContext = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
                 "postgres",
-                "2220"    
+                "sami2010"    
             );
             
             CallableStatement funcion = dbContext.prepareCall("{ call f_eliminar_estudiante(?) }");
