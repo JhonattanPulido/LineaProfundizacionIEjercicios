@@ -20,6 +20,7 @@ public class Estudiante implements Serializable {
     /**
      * Id del estudiante
      */    
+    @NotNull(message = "El ID es requerido")
     @Min(value = 0, message = "El id debe ser mayor a 0")
     private short id;
     

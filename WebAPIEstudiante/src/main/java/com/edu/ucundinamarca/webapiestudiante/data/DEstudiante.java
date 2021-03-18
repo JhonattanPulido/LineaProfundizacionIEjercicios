@@ -13,6 +13,8 @@ import java.util.List;
 import javax.ws.rs.core.NoContentException;
 import com.edu.ucundinamarca.webapiestudiante.pojos.Estudiante;
 import com.edu.ucundinamarca.webapiestudiante.exceptions.IntegridadException;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 /**
  * Clase datos estudiante
@@ -35,15 +37,19 @@ public class DEstudiante implements Serializable {
     /**
      * Método para crear estudiante
      * @param estudiante - Objeto con los datos del estudiante   
+     * @throws BadRequestException - Ocurre cuando la información no ha sido enviada correctamente
      * @throws IntegridadException - Ocurre cuando al registrar un nuevo estudiante, se encuentra que el número de documento ya existe
      * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
      * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL     
      */
-    public void crearEstudiante(Estudiante estudiante) throws   IntegridadException,
+    public void crearEstudiante(Estudiante estudiante) throws   BadRequestException,
+                                                                IntegridadException,
                                                                 SQLException,
                                                                 ClassNotFoundException,
                                                                 Exception {                       
 
+        if (estudiante == null) throw new BadRequestException("La información no ha sido enviada correctamente");
+        
         Class.forName("org.postgresql.Driver");            
 
         dbContext = DriverManager.getConnection(
@@ -112,112 +118,124 @@ public class DEstudiante implements Serializable {
      * Método para leer un estudiante filtrado por id
      * @param id - Identificación del usuario
      * @return los datos del estudiante
+     * @throws NotFoundException - Ocurre cuando no se encuentra el usuario asociado al ID
+     * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
+     * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL          
      */
-    public Estudiante leerEstudiante(short id) throws SQLException {
-    
-        try {
+    public Estudiante leerEstudiante(short id) throws   NotFoundException,
+                                                        SQLException,
+                                                        ClassNotFoundException, 
+                                                        Exception {
             
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
-            
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
-                "postgres",
-                "sami2010"    
+        Class.forName("org.postgresql.Driver");
+                        
+        dbContext = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+            "postgres",
+            "2220"    
+        );
+
+        CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante_id(?) }");
+        funcion.setShort(1, id);            
+
+        ResultSet respuesta = funcion.executeQuery();                   
+
+        while (respuesta.next()) {
+            return new Estudiante(
+                (short) respuesta.getShort("id"),
+                respuesta.getString("nombre"),
+                respuesta.getString("apellido"),
+                respuesta.getString("numero_documento")
             );
-        
-            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante_id(?) }");
-            funcion.setShort(1, id);            
-            
-            ResultSet respuesta = funcion.executeQuery();                   
-            
-            while (respuesta.next()) {
-                return new Estudiante(
-                    (short) respuesta.getShort("id"),
-                    respuesta.getString("nombre"),
-                    respuesta.getString("apellido"),
-                    respuesta.getString("numero_documento")
-                );
-            }                        
-            
-            return null;
-            
-        } catch (SQLException ex) { throw ex; }
+        }                        
+
+        throw new NotFoundException("No se encontró el estudiante");            
     }
     
     /**
      * Método para actualizar un estudiante
-     * @param estudiante
-     * @return índice de respuesta obtenido de la base de datos
+     * @param estudiante     
+     * @throws BadRequestException - Ocurre cuando la información no ha sido enviada correctamente
+     * @throws NotFoundException - Ocurre cuando no se encuentra el usuario asociado al ID
+     * @throws IntegridadException - Ocurre cuando al registrar un nuevo estudiante, se encuentra que el número de documento ya existe
+     * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
+     * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL          
      */
-    public short actualizarEstudiante(Estudiante estudiante) throws SQLException {
-    
-        try {
+    public void actualizarEstudiante(Estudiante estudiante) throws  BadRequestException,
+                                                                    NotFoundException,
+                                                                    IntegridadException,
+                                                                    SQLException,
+                                                                    ClassNotFoundException, 
+                                                                    Exception {
         
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
+        if (estudiante == null) throw new BadRequestException("La información no ha sido enviada correctamente");
             
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
-                "postgres",
-                "sami2010"    
-            );
+        Class.forName("org.postgresql.Driver");            
+
+        dbContext = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+            "postgres",
+            "2220"    
+        );
+
+        CallableStatement funcion = dbContext.prepareCall("{ call f_actualizar_estudiante(?,?,?,?) }");
+        funcion.setShort(1, estudiante.getId());
+        funcion.setString(2, estudiante.getNombre());
+        funcion.setString(3, estudiante.getApellido());                          
+        funcion.setString(4, estudiante.getNumeroDocumento());
+
+        ResultSet respuesta = funcion.executeQuery();                   
+
+        short res = 3;
+        
+        while (respuesta.next()) {                
+            res = respuesta.getShort(1);
+        }   
+
+        switch (res) {                    
             
-            CallableStatement funcion = dbContext.prepareCall("{ call f_actualizar_estudiante(?,?,?,?) }");
-            funcion.setShort(1, estudiante.getId());
-            funcion.setString(2, estudiante.getNombre());
-            funcion.setString(3, estudiante.getApellido());                          
-            funcion.setString(4, estudiante.getNumeroDocumento());
-            
-            ResultSet respuesta = funcion.executeQuery();                   
-            
-            while (respuesta.next()) {                
-                return respuesta.getShort(1);
-            }   
-            
-            return 3;
-            
-        } catch (SQLException ex) { throw ex; }
+            // No se encontró al estudiante    
+            case 1:
+                throw new NotFoundException("No se encontró al estudiante");
+                
+            // El número de documento ya está en uso
+            case 2:
+                throw new IntegridadException("El número de documento ya está en uso");                
+        }                
     }
     
     /**
      * Método para eliminar un estudiante
-     * @param id - Identificación del estudiante
-     * @return true: si el estudiante es eliminado correctamente
+     * @param id - Identificación del estudiante     
+     * @throws NotFoundException - Ocurre cuando no se encuentra el usuario asociado al ID
+     * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
+     * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL          
      */
-    public boolean eliminarEstudiante(short id) throws SQLException {
-    
-        try {
+    public void eliminarEstudiante(short id) throws NotFoundException,
+                                                    SQLException,
+                                                    ClassNotFoundException,
+                                                    Exception {
+            
+        Class.forName("org.postgresql.Driver");
+
+
+        dbContext = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+            "postgres",
+            "2220"    
+        );
+
+        CallableStatement funcion = dbContext.prepareCall("{ call f_eliminar_estudiante(?) }");
+        funcion.setShort(1, id);            
+
+        ResultSet respuesta = funcion.executeQuery();                   
+
+        boolean res = false;
         
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
-            
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
-                "postgres",
-                "sami2010"    
-            );
-            
-            CallableStatement funcion = dbContext.prepareCall("{ call f_eliminar_estudiante(?) }");
-            funcion.setShort(1, id);            
-            
-            ResultSet respuesta = funcion.executeQuery();                   
-            
-            while(respuesta.next()) {
-                return respuesta.getBoolean(1);
-            }                        
-            
-            return false;
-            
-        } catch (SQLException ex) { throw ex; }
+        while(respuesta.next()) {
+            res = respuesta.getBoolean(1);
+        }        
+        
+        if (!res) throw new NotFoundException("No se encontró al estudiante");                   
     }        
 }

@@ -2,33 +2,31 @@
 package com.edu.ucundinamarca.webapiestudiante.exception.filter;
 
 // Librerías
-import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
-import javax.ws.rs.core.NoContentException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ext.ExceptionMapper;
+import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
 
 /**
- * Filtro de la excepción no content
+ * Filtro para la excepción not found
  * @author Sandra Moreno - Jhonattan Pulido
  * @since 17/03/2021
  * @version 1.0.0
  */
 @Provider
-public class NoContentExceptionFilter implements ExceptionMapper<NoContentException> {
+public class NotFoundExceptionFilter implements ExceptionMapper<NotFoundException> {
 
     /**
-     * Responder 204 - NO CONTENT
+     * Responder 404 - NOT FOUND
      * @param exception
-     * @return Respuesta asociada a la respuesta 204
+     * @return Respuesta asociada a error 404
      */
     @Override
-    public Response toResponse(NoContentException exception) {
+    public Response toResponse(NotFoundException exception) {
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
-        return Response.status(Response.Status.NO_CONTENT)
+        return Response.status(Response.Status.NOT_FOUND)
                         .entity(error)
                         .build();
     }
-    
-    
 }
