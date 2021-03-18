@@ -3,6 +3,9 @@ package com.edu.ucundinamarca.webapiestudiante.pojos;
 
 // Librerías
 import java.io.Serializable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Clase estudiante
@@ -13,17 +16,48 @@ import java.io.Serializable;
 public class Estudiante implements Serializable {
     
     // Variables
+    
+    /**
+     * Id del estudiante
+     */    
+    @Min(value = 0, message = "El id debe ser mayor a 0")
     private short id;
+    
+    /**
+     * Nombre del estudiante
+     */
+    @NotNull(message = "El nombre es requerido")
+    @Size(min = 2, max = 50, message = "El nombre debe tener mínimo 2 y máximo 50 caracteres")
     private String nombre;
+    
+    /**
+     * Apellido del estudiante
+     */
+    @NotNull(message = "El apellido es requerido")
+    @Size(min = 2, max = 50, message = "El apellido debe tener mínimo 2 y máximo 50 caracteres")
     private String apellido;
+    
+    /**
+     * Número de documento del estudiante
+     */
+    @NotNull(message = "El número de documento es requerido")
+    @Size(min = 6, max = 10, message = "El número de documento debe tener mínimo 6 y máximo 10 caracteres")
     private String numeroDocumento;
     
-    // Constructor
+    /**
+     * Constructor vacio de la clase estudiante
+     */
     public Estudiante() {
         
     }
 
-    // Constructor con parámetros
+    /**
+     * Constructor con parámetros de la clase estudiante
+     * @param id - Identificación del estudiante
+     * @param nombre - Nombre del estudiante
+     * @param apellido - Apellido del estudiante
+     * @param numeroDocumento - Número de documento del estudiante
+     */
     public Estudiante(short id, String nombre, String apellido, String numeroDocumento) {
         this.id = id;
         this.nombre = nombre;

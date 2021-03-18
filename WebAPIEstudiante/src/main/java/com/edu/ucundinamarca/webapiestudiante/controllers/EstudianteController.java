@@ -1,11 +1,15 @@
 // Paquetes
 package com.edu.ucundinamarca.webapiestudiante.controllers;
 import com.edu.ucundinamarca.webapiestudiante.data.DEstudiante;
+import com.edu.ucundinamarca.webapiestudiante.exceptions.IntegridadException;
 import com.edu.ucundinamarca.webapiestudiante.pojos.Estudiante;
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import java.sql.SQLException;
+import java.util.List;
 
 // Importaciones
 import javax.ejb.Stateless;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +19,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NoContentException;
+import javax.ws.rs.core.Response;
 
 /**
  * Controlador estudiante
@@ -26,33 +32,54 @@ import javax.ws.rs.core.MediaType;
 @Path("/estudiante")
 public class EstudianteController {
     
+    /*
+        BAD REQUEST
+    */
+    
     /**
      * Método para crear un estudiante 
-     * @param estudiante objeto con los datos del estudiante
-     * @return true si el estudiante fué agregado correctametne
+     * @param estudiante - Objeto con los datos del estudiante   
+     * @return (201 - CREATED) - Si el estudiante es almacenado correctamente     
+     * @throws IntegridadException - (409 - CONFLICT) -  Ocurre cuando al registrar un nuevo estudiante, se encuentra que el número de documento ya existe
+     * @throws SQLException - (500 - INTERNAL SERVER ERROR) - Ocurre cuando se encuentra un error al procesar alguna función en la base de datos
+     * @throws ClassNotFoundException - (500 - INTERNAL SERVER ERROR) - Ocurre cuando no se encuentra el driver de PostgreSQL     
      */
     @POST
     @Path("/crear")
-    public String crearEstudiante(Estudiante estudiante){
-        try {
-            return new DEstudiante().crearEstudiante(estudiante) ? "201 Created: Estudiante creado correctamente" : "409 Conflict: El número de documento ya está en uso.";            
-        } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";
-        } 
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response crearEstudiante(@Valid Estudiante estudiante) throws    IntegridadException,
+                                                                            SQLException,
+                                                                            ClassNotFoundException,
+                                                                            Exception {
+        
+        new DEstudiante().crearEstudiante(estudiante);              
+        return Response.status(Response.Status.CREATED)
+                        .entity("Estudiante creado correctamente")
+                        .build();
+                    
     }
     
     /**
      * Método para obtener todos los estudiantes registrados
-     * @return lista de estudiantes
+     * @return (200 - OK) lista de estudiantes
+     * @throws NoContentException (204 - NO CONTENT) - Ocurre cuando no hay estudiantes en la base de datos
+     * @throws SQLException - (500 - INTERNAL SERVER ERROR) - Ocurre cuando se encuentra un error al procesar alguna función en la base de datos
+     * @throws ClassNotFoundException - (500 - INTERNAL SERVER ERROR) - Ocurre cuando no se encuentra el driver de PostgreSQL     
      */
     @GET
     @Path("/leer")
-    public ArrayList<Estudiante> leerEstudiantes() throws Exception {
-        try {
-            return new DEstudiante().leerEstudiantes();
-        } catch (Exception ex) {
-            return null;
-        }        
+    @Produces(MediaType.APPLICATION_JSON)    
+    public Response leerEstudiantes() throws    NoContentException,
+                                                SQLException,
+                                                ClassNotFoundException, 
+                                                Exception {
+        
+        Gson gson = new Gson();
+        List<Estudiante> listaEstudiantes = new DEstudiante().leerEstudiantes();
+        return Response.status(Response.Status.OK)
+                        .entity(gson.toJson(listaEstudiantes))
+                        .build();             
     }
     
     /**
@@ -62,11 +89,24 @@ public class EstudianteController {
      */
     @GET
     @Path("/leer/{ id }")
-    public Estudiante leerEstudiante(@PathParam("id") short id) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response leerEstudiante(@PathParam("id") short id) {
         try {
-            return new DEstudiante().leerEstudiante(id);
+            Estudiante estudiante = new DEstudiante().leerEstudiante(id);
+            
+            if (estudiante != null)
+                return Response.status(Response.Status.OK)
+                                .entity(estudiante)
+                                .build();
+            else
+                return Response.status(Response.Status.NOT_FOUND)
+                                .entity("No se encontró el estudiante")
+                                .build();
+                
         } catch (Exception ex) {
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity(ex)
+                            .build();
         }  
     }           
     
@@ -76,28 +116,40 @@ public class EstudianteController {
      * @return 
      */
     @PUT
-    @Path("/actualizar")    
-    public String actualizarEstudiante(Estudiante estudiante){
+    @Path("/actualizar")   
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarEstudiante(@Valid Estudiante estudiante){
         try {
             switch (new DEstudiante().actualizarEstudiante(estudiante)) {
                 
                 // Estudiante se actualizó correctamente
                 case 0:
-                    return "200 Ok: Estudiante actualizado correctamente";                    
+                    return Response.status(Response.Status.OK)
+                                    .entity("Estudiante actualizado correctamente")
+                                    .build();
                    
                 // No se encontró al estudiante    
                 case 1:
-                    return "409 Confict: No se encontró el estudiante";
+                    return Response.status(Response.Status.NOT_FOUND)
+                                    .entity("No se encontró el estudiante")
+                                    .build();
                 
                 // El número de documento ya está en uso
                 case 2:
-                    return "409 Confict: El número de documento ya está en uso";                                
+                    return Response.status(Response.Status.BAD_REQUEST)
+                                    .entity("El número de documento ya está en uso")
+                                    .build();
             }
             
-            return "500 Internal server error: Hubó un problema en el servidor";                    
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)                            
+                            .entity("Ha ocurrido un error inesperado")
+                            .build();                    
             
         } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";                    
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity(ex)
+                            .build();                    
         }           
     }
     
@@ -107,12 +159,22 @@ public class EstudianteController {
      * @return 
      */
     @DELETE
-    @Path("/eliminar/{ id }")    
-    public String eliminarEstudiante(@PathParam("id") short id){
+    @Path("/eliminar/{ id }")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response eliminarEstudiante(@PathParam("id") short id){
         try {
-            return new DEstudiante().eliminarEstudiante(id) ? "200 Ok: Estudiante eliminado correctamente" : "409 Conflict: No se encontró el estudiante";
+            if (new DEstudiante().eliminarEstudiante(id)) 
+                return Response.status(Response.Status.OK)
+                            .entity("Estudiante eliminado correctamente")
+                            .build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST)
+                            .entity("No se encontró el estudiante")
+                            .build();                
         } catch (Exception ex) {
-            return "500 Internal server error: Hubó un problema en el servidor";
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity(ex)
+                            .build();
         }  
     }
 }

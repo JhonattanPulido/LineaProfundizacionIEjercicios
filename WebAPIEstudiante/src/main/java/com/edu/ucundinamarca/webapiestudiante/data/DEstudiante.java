@@ -1,6 +1,5 @@
 // Paquetes
 package com.edu.ucundinamarca.webapiestudiante.data;
-import com.edu.ucundinamarca.webapiestudiante.pojos.Estudiante;
 
 // Importaciones
 import java.io.Serializable;
@@ -10,6 +9,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import javax.ws.rs.core.NoContentException;
+import com.edu.ucundinamarca.webapiestudiante.pojos.Estudiante;
+import com.edu.ucundinamarca.webapiestudiante.exceptions.IntegridadException;
 
 /**
  * Clase datos estudiante
@@ -31,79 +34,78 @@ public class DEstudiante implements Serializable {
     
     /**
      * Método para crear estudiante
-     * @param estudiante - Objeto con los datos del estudiante
-     * @return - True : si el estudiante se almaceno correctamente
+     * @param estudiante - Objeto con los datos del estudiante   
+     * @throws IntegridadException - Ocurre cuando al registrar un nuevo estudiante, se encuentra que el número de documento ya existe
+     * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
+     * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL     
      */
-    public boolean crearEstudiante(Estudiante estudiante) throws SQLException {
+    public void crearEstudiante(Estudiante estudiante) throws   IntegridadException,
+                                                                SQLException,
+                                                                ClassNotFoundException,
+                                                                Exception {                       
         
-        try {
-            
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
-            
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
-                "postgres",
-                "2220"    
-            );
+        Class.forName("org.postgresql.Driver");            
+
+        dbContext = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+            "postgres",
+            "2220"    
+        );
+
+        CallableStatement funcion = dbContext.prepareCall("{ call f_crear_estudiante(?,?,?) }");
+        funcion.setString(1, estudiante.getNombre());
+        funcion.setString(2, estudiante.getApellido());                          
+        funcion.setString(3, estudiante.getNumeroDocumento());            
+
+        ResultSet respuesta = funcion.executeQuery();       
+
+        boolean res = false;
         
-            CallableStatement funcion = dbContext.prepareCall("{ call f_crear_estudiante(?,?,?) }");
-            funcion.setString(1, estudiante.getNombre());
-            funcion.setString(2, estudiante.getApellido());                          
-            funcion.setString(3, estudiante.getNumeroDocumento());            
-            
-            ResultSet respuesta = funcion.executeQuery();       
-            
-            while (respuesta.next()) {                
-                return respuesta.getBoolean(1);
-            }            
-                        
-            return false;
-            
-        } catch (SQLException ex) { throw ex; }
+        while (respuesta.next()) {                
+            res = respuesta.getBoolean(1);
+        }            
+
+        if (!res) throw new IntegridadException("El número de documento ya está en uso.");
     }
     
     /**
      * Método para leer los estudiantes registrados
      * @return lista de estudiantes
+     * @throws NoContentException - Ocurre cuando no hay estudiantes en la base de datos
+     * @throws SQLException - Ocurre cuando se encuentra un error al procesar alguna función el la base de datos
+     * @throws ClassNotFoundException - Ocurre cuando no se encuentra el driver de PostgreSQL          
      */
-    public ArrayList<Estudiante> leerEstudiantes() throws SQLException {
-    
-        try {
+    public List<Estudiante> leerEstudiantes() throws    NoContentException,
+                                                        SQLException,
+                                                        ClassNotFoundException, 
+                                                        Exception {
+           
+        Class.forName("org.postgresql.Driver");            
             
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println(e);
-            }
-            
-            dbContext = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
-                "postgres",
-                "2220"    
-            );
-        
-            CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante() }");            
-            
-            ResultSet respuesta = funcion.executeQuery();                   
-            
-            ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
-            
-            while (respuesta.next()) {
-                listaEstudiantes.add(new Estudiante(
-                    respuesta.getShort("id"),
-                    respuesta.getString("nombre"),
-                    respuesta.getString("apellido"),
-                    respuesta.getString("numero_documento")
-                ));
-            }
-            
-            return listaEstudiantes;
-            
-        } catch (SQLException ex) { throw ex; }
+        dbContext = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/ejercicio_estudiante_db", 
+            "postgres",
+            "2220"    
+        );
+
+        CallableStatement funcion = dbContext.prepareCall("{ call f_leer_estudiante() }");            
+
+        ResultSet respuesta = funcion.executeQuery();                   
+
+        List<Estudiante> listaEstudiantes = new ArrayList<>();
+
+        while (respuesta.next()) {
+            listaEstudiantes.add(new Estudiante(
+                (short) respuesta.getShort("id"),
+                respuesta.getString("nombre"),
+                respuesta.getString("apellido"),
+                respuesta.getString("numero_documento")
+            ));
+        }
+
+        if (listaEstudiantes.size() > 0) return listaEstudiantes;
+
+        throw new NoContentException("No hay estudiantes registrados.");
     }
     
     /**

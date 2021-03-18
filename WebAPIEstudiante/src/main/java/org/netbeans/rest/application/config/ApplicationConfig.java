@@ -30,6 +30,11 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.edu.ucundinamarca.webapiestudiante.controllers.EstudianteController.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.BadRequestExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.ClassNotFoundExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.ExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.IntegridadExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.SQLExceptionFilter.class);
     }
     
 }
