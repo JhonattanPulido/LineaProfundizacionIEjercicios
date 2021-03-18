@@ -37,6 +37,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.NoContentExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.NotFoundExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.SQLExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.webapiestudiante.exception.filter.ValidationExceptionFilter.class);
     }
     
 }

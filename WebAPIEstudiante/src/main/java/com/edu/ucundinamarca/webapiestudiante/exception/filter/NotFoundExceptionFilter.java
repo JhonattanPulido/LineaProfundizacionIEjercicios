@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ext.ExceptionMapper;
 import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Filtro para la excepción not found
@@ -27,6 +28,7 @@ public class NotFoundExceptionFilter implements ExceptionMapper<NotFoundExceptio
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.NOT_FOUND)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }
 }

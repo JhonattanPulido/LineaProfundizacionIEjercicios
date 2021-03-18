@@ -3,6 +3,7 @@ package com.edu.ucundinamarca.webapiestudiante.exception.filter;
 
 // Librerías
 import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NoContentException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -27,6 +28,7 @@ public class NoContentExceptionFilter implements ExceptionMapper<NoContentExcept
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.NO_CONTENT)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }
     

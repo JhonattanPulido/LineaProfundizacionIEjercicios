@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
 import com.edu.ucundinamarca.webapiestudiante.exceptions.IntegridadException;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Filtro de la excepción de integridad
@@ -27,6 +28,7 @@ public class IntegridadExceptionFilter implements ExceptionMapper<IntegridadExce
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.CONFLICT)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }        
 }

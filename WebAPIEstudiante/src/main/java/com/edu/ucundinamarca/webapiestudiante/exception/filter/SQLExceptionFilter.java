@@ -4,6 +4,7 @@ import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
 
 // Librerías
 import java.sql.SQLException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -28,6 +29,7 @@ public class SQLExceptionFilter implements ExceptionMapper<SQLException> {
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }
     

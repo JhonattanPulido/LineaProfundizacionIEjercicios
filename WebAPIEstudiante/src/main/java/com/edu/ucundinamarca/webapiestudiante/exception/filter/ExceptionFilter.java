@@ -1,6 +1,7 @@
 // Paquetes
 package com.edu.ucundinamarca.webapiestudiante.exception.filter;
 import com.edu.ucundinamarca.webapiestudiante.pojos.ErrorDto;
+import javax.ws.rs.core.MediaType;
 
 // Librerías
 import javax.ws.rs.core.Response;
@@ -27,6 +28,7 @@ public class ExceptionFilter implements ExceptionMapper<Exception> {
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }       
 }
