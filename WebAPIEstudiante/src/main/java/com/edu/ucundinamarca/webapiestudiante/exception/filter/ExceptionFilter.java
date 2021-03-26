@@ -25,6 +25,23 @@ public class ExceptionFilter implements ExceptionMapper<Exception> {
      */
     @Override
     public Response toResponse(Exception exception) {
+        
+        if (exception.getMessage().contains("405")) {
+            ErrorDto error = new ErrorDto("No se encontró el método solicitado", exception.getStackTrace()[0].toString());
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED)
+                        .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
+                        .build();
+        }             
+        
+        if (exception.getMessage().contains("415")) {
+            ErrorDto error = new ErrorDto("El formato de la información no ha sido enviado correctamente", exception.getStackTrace()[0].toString());
+            return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE)
+                        .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
+                        .build();
+        }     
+        
         ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(error)

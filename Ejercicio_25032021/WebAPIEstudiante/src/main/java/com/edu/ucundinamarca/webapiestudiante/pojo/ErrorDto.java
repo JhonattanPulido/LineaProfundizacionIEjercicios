@@ -1,45 +1,43 @@
 // Paquetes
-package com.edu.ucundinamarca.webapiestudiante.pojos;
+package com.edu.ucundinamarca.webapiestudiante.pojo;
 
 // Librerías
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Clase error
+ * Clase de Error Dto
  * @author Sandra Moreno - Jhonattan Pulido
- * @since 17/03/2021
+ * @since 25/03/2021
  * @version 1.0.0
  */
 public class ErrorDto implements Serializable {
     
-    // Variables
-    
     /**
-     * Mensaje de error
+     * Mensaje de la excepción
      */
     private String mensaje;
     
     /**
-     * Fecha en la que se ejecuta el error
+     * Fecha en la que se generó la excepción
      */
-    private String fecha;
+    private final String fecha;
     
     /**
-     * Path del error que se genera
+     * Ruta en la que se generó la exepción
      */
     private String path;
 
     /**
-     * Constructor de la clase
-     * @param mensaje     
-     * @param path     
+     * Constructor
+     * @param mensaje
+     * @param path 
      */
     public ErrorDto(String mensaje, String path) {
         this.mensaje = mensaje;
-        this.fecha = new Date().toString(); 
         this.path = path;
-    }        
+        fecha = new Date().toString();
+    }     
     
     // Métodos Set & Get
 
@@ -53,11 +51,7 @@ public class ErrorDto implements Serializable {
 
     public String getFecha() {
         return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }    
+    }        
 
     public String getPath() {
         return path;
@@ -65,5 +59,5 @@ public class ErrorDto implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
-    }        
+    }    
 }
