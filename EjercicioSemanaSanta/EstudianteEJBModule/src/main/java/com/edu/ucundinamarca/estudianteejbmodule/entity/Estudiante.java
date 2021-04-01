@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,8 +25,7 @@ public class Estudiante implements Serializable {
     
     // Variables
     
-    @Id
-    @NotNull(message = "El ID es requerido")
+    @Id       
     @Min(value = 0, message = "El ID debe ser un número igual o mayor a 0")
     private Short id;
     

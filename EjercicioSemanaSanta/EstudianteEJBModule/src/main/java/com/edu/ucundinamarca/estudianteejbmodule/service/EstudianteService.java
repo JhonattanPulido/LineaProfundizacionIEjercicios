@@ -3,10 +3,12 @@ package com.edu.ucundinamarca.estudianteejbmodule.service;
 
 // Librerías
 import javax.ejb.EJB;
+import java.util.List;
 import javax.ejb.Stateless;
 import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
+import com.edu.ucundinamarca.estudianteejbmodule.exception.NoContentException;
 import com.edu.ucundinamarca.estudianteejbmodule.service.interfaz.IEstudianteService;
 import com.edu.ucundinamarca.estudianteejbmodule.repository.interfaz.IEstudianteRepository;
 
@@ -32,6 +34,11 @@ public class EstudianteService implements IEstudianteService {
      */
     private Estudiante estudiante;
     
+    /**
+     * Lista auxiliar de estudiantes
+     */
+    private List<Estudiante> listaEstudiantes;
+    
     // Métodos
     
     @Override
@@ -51,5 +58,32 @@ public class EstudianteService implements IEstudianteService {
             return estudiante;
         else
             throw new NotFoundException("No se encontró el estudiante");        
+    }
+
+    @Override
+    public List<Estudiante> leer() throws   NoContentException,
+                                            Exception {
+        
+        listaEstudiantes = estudianteRepository.leer();
+        
+        if (listaEstudiantes.size() > 0)
+            return listaEstudiantes;
+        else
+            throw new NoContentException("");
+    }
+
+    @Override
+    public boolean actualizar(Estudiante estudiante) throws NotFoundException,
+                                                            IntegridadException,
+                                                            Exception {
+        
+        return estudianteRepository.actualizar(estudiante);
+    }
+
+    @Override
+    public boolean eliminar(int id) throws  NotFoundException,
+                                            Exception {
+        
+        return estudianteRepository.eliminar(id);
     }
 }

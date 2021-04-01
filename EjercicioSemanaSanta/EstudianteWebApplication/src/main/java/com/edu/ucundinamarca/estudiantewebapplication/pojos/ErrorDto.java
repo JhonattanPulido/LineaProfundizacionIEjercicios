@@ -40,4 +40,16 @@ public class ErrorDto implements Serializable {
         this.mensaje = mensaje;
         fecha = new Date().toString();
     }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getPath() {
+        return path;
+    }        
 }

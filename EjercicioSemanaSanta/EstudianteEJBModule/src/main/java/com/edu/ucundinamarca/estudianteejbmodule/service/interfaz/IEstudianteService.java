@@ -2,10 +2,12 @@
 package com.edu.ucundinamarca.estudianteejbmodule.service.interfaz;
 
 // Librerías
+import java.util.List;
 import javax.ejb.Local;
 import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
+import com.edu.ucundinamarca.estudianteejbmodule.exception.NoContentException;
 
 /**
  * Interfaz de la capa de servicios de Estudiante
@@ -35,4 +37,35 @@ public interface IEstudianteService {
      */
     public Estudiante leer(int id) throws   NotFoundException,
                                             Exception;       
+    
+    /**
+     * Leer todos los estudiantes registrados en la base de datos
+     * @return - Lista de estudiantes
+     * @throws NoContentException
+     * @throws Exception 
+     */
+    public List<Estudiante> leer() throws   NoContentException,
+                                            Exception;
+    
+    /**
+     * Actualizar estudiante
+     * @param estudiante - Objeto con los datos del estudiante
+     * @return - True si el estudiante es actualizado correctamente
+     * @throws NotFoundException
+     * @throws IntegridadException
+     * @throws Exception 
+     */
+    public boolean actualizar(Estudiante estudiante) throws NotFoundException,
+                                                            IntegridadException,
+                                                            Exception;
+    
+    /**
+     * Eliminar estudiante
+     * @param id - ID del estudiante
+     * @return - True si el estudiante es eliminado correctamente
+     * @throws NotFoundException
+     * @throws Exception 
+     */
+    public boolean eliminar(int id) throws  NotFoundException,
+                                            Exception;
 }

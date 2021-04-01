@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.controllers.EstudianteController.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.ExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.IntegridadExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.NoContentExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.NotFoundExceptionFilter.class);
     }
     

@@ -3,8 +3,10 @@ package com.edu.ucundinamarca.estudiantewebapplication.controllers;
 
 // Librerías
 import javax.ejb.EJB;
-import javax.ws.rs.Path;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ejb.Stateless;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -15,8 +17,9 @@ import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
 import com.edu.ucundinamarca.estudianteejbmodule.service.interfaz.IEstudianteService;
-import javax.ws.rs.GET;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.NoContentException;
 
 /**
  * Controlador de Estudiante
@@ -59,6 +62,41 @@ public class EstudianteController {
         
         return Response.status(Response.Status.OK)
                         .entity(estudianteService.leer(id))
+                        .build();
+    }
+    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)    
+    public Response leer() throws   NoContentException,
+                                    Exception {
+    
+        return Response.status(Response.Status.OK)
+                        .entity(estudianteService.leer())
+                        .build();
+    } 
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)    
+    public Response actualizar(@Valid Estudiante estudiante) throws NotFoundException,
+                                                                    IntegridadException,
+                                                                    Exception {
+        
+        estudianteService.actualizar(estudiante);
+        return Response.status(Response.Status.OK)                        
+                        .build();
+    }
+    
+    @DELETE
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)    
+    public Response eliminar(@PathParam("id") int id) throws    NotFoundException,
+                                                                Exception {
+    
+        estudianteService.eliminar(id);
+        return Response.status(Response.Status.NO_CONTENT)
                         .build();
     }
 }

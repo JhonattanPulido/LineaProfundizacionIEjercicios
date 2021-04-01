@@ -4,6 +4,7 @@ package com.edu.ucundinamarca.estudiantewebapplication.exception.filters;
 // Librerías
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ExceptionMapper;
 import com.edu.ucundinamarca.estudiantewebapplication.pojos.ErrorDto;
 
@@ -23,6 +24,7 @@ public class ExceptionFilter implements ExceptionMapper<Exception> {
         
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .entity(error)
+                        .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
     }    
 }

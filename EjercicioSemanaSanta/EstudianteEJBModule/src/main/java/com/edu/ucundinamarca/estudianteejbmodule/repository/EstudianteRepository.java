@@ -2,14 +2,16 @@
 package com.edu.ucundinamarca.estudianteejbmodule.repository;
 
 // Librerías
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
+import com.edu.ucundinamarca.estudianteejbmodule.exception.NoContentException;
 import com.edu.ucundinamarca.estudianteejbmodule.repository.interfaz.IEstudianteRepository;
-import javax.persistence.NoResultException;
 
 /**
  * Capa de datos de Estudiante
@@ -33,6 +35,13 @@ public class EstudianteRepository implements IEstudianteRepository {
      */
     private Estudiante estudiante;
     
+    /**
+     * Lista auxiliar de estudiantes
+     */
+    private List<Estudiante> listaEstudiantes;
+    
+    // Métodos
+    
     @Override
     public boolean crear(Estudiante estudiante) throws  IntegridadException,
                                                         Exception {
@@ -48,13 +57,12 @@ public class EstudianteRepository implements IEstudianteRepository {
     }
     
     @Override
-    public Estudiante leer(int id) throws   NotFoundException,
-                                            Exception {
+    public Estudiante leer(int id) {
                 
         try {
             return em.createQuery("SELECT e FROM Estudiante e WHERE e.id = :id", Estudiante.class).setParameter("id", id).getSingleResult();
         } catch (NoResultException e) {
-            throw new NotFoundException("No se econtró el estudiante");
+            return null;
         }        
     }
 
@@ -65,5 +73,48 @@ public class EstudianteRepository implements IEstudianteRepository {
         } catch (NoResultException e) {
             return null;
         }           
-    }       
+    }     
+    
+    @Override
+    public List<Estudiante> leer() {
+        
+        return em.createQuery("SELECT e FROM Estudiante e", Estudiante.class).getResultList();                
+    }
+
+    @Override
+    public boolean actualizar(Estudiante estudiante) throws NotFoundException,
+                                                            IntegridadException, 
+                                                            Exception {
+        
+        this.estudiante = leer(estudiante.getId());
+        
+        if (this.estudiante != null) {
+            
+            this.estudiante = leer(estudiante.getNumeroDocumento());
+            
+            if (this.estudiante == null || (this.estudiante != null && this.estudiante.getId().compareTo(estudiante.getId()) == 0)) {
+                
+                em.merge(estudiante);
+                return true;
+                
+            } else
+                throw new IntegridadException("El número de documento ya está en uso");
+        }
+        
+        throw new NotFoundException("No se encontró el estudiante");
+    }
+
+    @Override
+    public boolean eliminar(int id) throws  NotFoundException,
+                                            Exception {
+        
+        estudiante = leer(id);
+        
+        if (estudiante != null) {        
+            em.remove(estudiante);
+            return true;
+        }
+        
+        throw new NotFoundException("No se encontró el estudiante");
+    }    
 }
