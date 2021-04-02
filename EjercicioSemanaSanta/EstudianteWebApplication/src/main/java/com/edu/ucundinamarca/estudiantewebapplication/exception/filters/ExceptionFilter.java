@@ -17,6 +17,11 @@ import com.edu.ucundinamarca.estudiantewebapplication.pojos.ErrorDto;
 @Provider
 public class ExceptionFilter implements ExceptionMapper<Exception> {
 
+    /**
+     * Se ejecuta cuando no hay excepciones controladas
+     * @param exception
+     * @return 500 - INTERNAL SERVER ERROR
+     */
     @Override
     public Response toResponse(Exception exception) {
         

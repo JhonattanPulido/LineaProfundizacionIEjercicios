@@ -7,7 +7,6 @@ import javax.ejb.Local;
 import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
-import com.edu.ucundinamarca.estudianteejbmodule.exception.NoContentException;
 
 /**
  * Interfaz de la capa de datos de Estudiante

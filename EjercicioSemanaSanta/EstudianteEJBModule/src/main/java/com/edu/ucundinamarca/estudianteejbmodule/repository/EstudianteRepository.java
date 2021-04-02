@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import com.edu.ucundinamarca.estudianteejbmodule.entity.Estudiante;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.estudianteejbmodule.exception.IntegridadException;
-import com.edu.ucundinamarca.estudianteejbmodule.exception.NoContentException;
 import com.edu.ucundinamarca.estudianteejbmodule.repository.interfaz.IEstudianteRepository;
 
 /**

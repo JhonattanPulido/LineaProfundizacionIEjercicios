@@ -6,31 +6,31 @@ import javax.ws.rs.ext.Provider;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.BadRequestException;
 import com.edu.ucundinamarca.estudiantewebapplication.pojos.ErrorDto;
-import com.edu.ucundinamarca.estudianteejbmodule.exception.NotFoundException;
 
 /**
- * Filtro de NotFoundException
+ * Filtro de BadRequest
  * @author Sandra Moreno - Jhonattan Pulido
- * @since 30/03/2021
+ * @since 03/04/2021
  * @version 1.0.0
  */
 @Provider
-public class NotFoundExceptionFilter implements ExceptionMapper<NotFoundException> {
+public class BadRequestExceptionFilter implements ExceptionMapper<BadRequestException> {
 
     /**
-     * Se ejecuta cuando una petición o un estudiante no es encontrado
+     * Se ejecuta cuando una consulta no se envia correctamente
      * @param exception
-     * @return 404 - NOT FOUND
+     * @return 400 - BAD REQUEST
      */
     @Override
-    public Response toResponse(NotFoundException exception) {
+    public Response toResponse(BadRequestException exception) {
         
-        ErrorDto error = new ErrorDto(exception.getMessage(), exception.getStackTrace()[0].toString());
+        ErrorDto error = new ErrorDto("La información no se ha enviado correctamente", exception.getStackTrace()[0].toString());
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.BAD_REQUEST)
                         .entity(error)
                         .type(MediaType.APPLICATION_JSON_TYPE)
                         .build();
-    }    
+    }        
 }

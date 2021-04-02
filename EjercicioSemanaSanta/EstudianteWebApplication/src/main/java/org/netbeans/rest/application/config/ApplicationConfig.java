@@ -30,10 +30,16 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.controllers.EstudianteController.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.BadRequestExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.ExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.IntegridadExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.JsonParsingExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.MethodNotAllowedFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.NoContentExceptionFilter.class);
         resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.NotFoundExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.NullPointerExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.UnsupportedMediaTypeExceptionFilter.class);
+        resources.add(com.edu.ucundinamarca.estudiantewebapplication.exception.filters.WSNotFoundExceptionFilter.class);
     }
     
 }
