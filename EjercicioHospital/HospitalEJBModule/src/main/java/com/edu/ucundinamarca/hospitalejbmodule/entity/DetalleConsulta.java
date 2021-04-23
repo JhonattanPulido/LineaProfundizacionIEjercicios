@@ -3,6 +3,7 @@ package com.edu.ucundinamarca.hospitalejbmodule.entity;
 
 // Librerías
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +42,7 @@ public class DetalleConsulta implements Serializable {
     private String diagnostico;        
     
     @ManyToOne
+    @JsonbTransient
     @JoinColumn(name = "consulta_id")
     @NotNull(message = "La consulta es obligatoria")
     private Consulta consulta;

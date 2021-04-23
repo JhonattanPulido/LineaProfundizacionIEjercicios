@@ -23,26 +23,61 @@ public class ConsultaService implements IConsultaService {
     // Variables
     
     /**
-     * 
+    * Variable auxiliar del objeto consulta
+    */
+    private Consulta consulta;
+    
+    /**
+    * Lista auxiliar de lista de consultas
+    */
+    private List<Consulta> listaConsultas;
+    
+    /**
+     * EJB de consulta
      */
     @EJB
     private IConsultaRepository consultaRepository;
     
     // Métodos
     
+    /**
+    * Crear consulta
+    * @param consulta - Objeto consulta
+    */
     @Override
-    public void crear(Consulta t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void crear(Consulta consulta) {
+        consultaRepository.crear(consulta);
     }
-
+    
+    /**
+    * Leer consulta por id
+    * @param id - id de la consulta
+    * @return Objeto con los datos de la consulta
+    * @throws NotFoundException
+    */
     @Override
-    public Consulta leer(String queryName, Short id) throws NotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Consulta leer(Short id) throws NotFoundException {
+        consulta = consultaRepository.leer("LeerConsulta", id);
+        
+        if(consulta != null)
+            return consulta;
+        throw new NotFoundException("No se encontra la consulta solicitada");
     }
-
+    
+    /**
+    * Leer todas las consultas
+    * @return lista de consultas
+    * @throws NoContentException
+    */
     @Override
     public List<Consulta> leer() throws NoContentException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        listaConsultas = consultaRepository.leer("LeerTodasConsulta");
+        
+        if (listaConsultas != null && listaConsultas.size() > 0)           
+            return listaConsultas;
+        
+        throw new NoContentException("La lista no tiene ningun contenido");
     }
 
     /**
@@ -52,7 +87,7 @@ public class ConsultaService implements IConsultaService {
      * @throws NotFoundException 
      */
     @Override
-    public void actualizar(String queryName, Consulta consulta) throws NotFoundException {
+    public void actualizar(Consulta consulta) throws NotFoundException {
         
         if (consultaRepository.cantidadRegistrosId("QConsultas", consulta.getId()) == 1)
             consultaRepository.actualizar(consulta);  
@@ -67,7 +102,7 @@ public class ConsultaService implements IConsultaService {
      * @throws NotFoundException 
      */
     @Override
-    public void eliminar(String queryName, Consulta consulta) throws NotFoundException {
+    public void eliminar(Short id) throws NotFoundException {
         
         if (consultaRepository.cantidadRegistrosId("QConsultas", consulta.getId()) == 1)
             consultaRepository.eliminar(consulta);  

@@ -73,7 +73,7 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
      * @return Lista de registros
      */
     @Override
-    public List<T> leer() {
+    public List<T> leer(String queryName) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = cb.createQuery(classType);
         Root<T> root = criteriaQuery.from(classType);
@@ -108,7 +108,7 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
      */
     @Override
     public long cantidadRegistrosId(String queryName, Short id) {
-        return (long) em.createNamedQuery(queryName, classType).setParameter("id", id).getSingleResult();
+        return (long)em.createNamedQuery(queryName, long.class).setParameter("id", id).getSingleResult();
     }        
     
 }

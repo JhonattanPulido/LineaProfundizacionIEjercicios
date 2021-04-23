@@ -63,6 +63,33 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+                <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+        <!-- JSON-P -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- JSON-B API -->
+        <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <!-- Yasson (JSON-B implementation) -->
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <version>1.0.3</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>

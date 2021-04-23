@@ -29,7 +29,8 @@ import javax.validation.constraints.Size;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "QMedicos", query = "SELECT COUNT(m.id) FROM Medico m WHERE m.id = :id"),
-    @NamedQuery(name = "LeerMedico", query = "SELECT m FROM Medico m WHERE m.id = :id")
+    @NamedQuery(name = "LeerMedico", query = "SELECT m FROM Medico m WHERE m.id = :id"),
+    @NamedQuery(name = "LeerTodosMedico", query = "SELECT m FROM Medico m")
 })
 @Table(name = "medicos", schema = "public")
 public class Medico implements Serializable {
@@ -108,4 +109,13 @@ public class Medico implements Serializable {
     public void setListaConsultas(List<Consulta> listaConsultas) {
         this.listaConsultas = listaConsultas;
     }        
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+    
 }

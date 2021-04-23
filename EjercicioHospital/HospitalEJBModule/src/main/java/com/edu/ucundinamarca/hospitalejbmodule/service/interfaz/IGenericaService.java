@@ -25,11 +25,10 @@ public interface IGenericaService<T> {
     /**
      * Leer un registro filtrado por ID
      * @param id - ID del registro
-     * @param queryName 
      * @return Objeto con los datos específicos
      * @throws NotFoundException
      */
-    public T leer(String queryName, Short id) throws    NotFoundException;
+    public T leer(Short id) throws    NotFoundException;
     
     /**
      * Leer todos los registros almacenados
@@ -41,16 +40,14 @@ public interface IGenericaService<T> {
     /**
      * Actualizar un registro
      * @param t - Objeto con los datos del registro
-     * @param queryName 
      * @throws NotFoundException
      */
-    public void actualizar(String queryName, T t) throws    NotFoundException;
+    public void actualizar(T t) throws    NotFoundException;
     
     /**
      * Eliminar un registro
-     * @param t - Objeto con los datos del registro
-     * @param queryName 
+     * @param id
      * @throws NotFoundException
      */
-    public void eliminar(String queryName, T t) throws  NotFoundException;
+    public void eliminar(Short id) throws  NotFoundException;
 }

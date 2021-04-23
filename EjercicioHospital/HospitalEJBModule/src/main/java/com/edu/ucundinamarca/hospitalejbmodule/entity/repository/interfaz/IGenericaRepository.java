@@ -31,9 +31,10 @@ public interface IGenericaRepository<T> {
     
     /**
      * Leer todos los registros almacenados
+     * @param queryName
      * @return Lista de registros específicos
      */
-    public List<T> leer();
+    public List<T> leer(String queryName);
     
     /**
      * Actualizar un registro

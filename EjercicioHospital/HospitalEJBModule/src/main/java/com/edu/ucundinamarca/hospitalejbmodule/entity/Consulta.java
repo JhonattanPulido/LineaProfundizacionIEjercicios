@@ -30,7 +30,8 @@ import javax.validation.constraints.Null;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "QConsultas", query = "SELECT COUNT(c.id) FROM Consulta c WHERE c.id = :id"),
-    @NamedQuery(name = "LeerConsulta", query = "SELECT c FROM Consulta c WHERE c.id = :id")
+    @NamedQuery(name = "LeerConsulta", query = "SELECT c FROM Consulta c WHERE c.id = :id"),
+    @NamedQuery(name = "LeerTodasConsulta", query = "SELECT c FROM Consulta c")
 })
 @Table(name = "consultas", schema = "public")
 public class Consulta implements Serializable {
