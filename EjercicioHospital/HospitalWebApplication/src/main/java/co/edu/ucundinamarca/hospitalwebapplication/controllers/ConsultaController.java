@@ -44,10 +44,10 @@ public class ConsultaController implements Serializable{
     }       
     
     
-    @Path("{idConsulta}")
+    @Path("buscar/{idConsulta}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response leer(@PathParam("consultaId") Short consultaId) throws NotFoundException{
+    public Response leer(@PathParam("idConsulta") Short consultaId) throws NotFoundException{
             Consulta consulta = consultaService.leer(consultaId);
             return Response.status(Response.Status.OK)
                         .entity(consulta)
@@ -59,6 +59,7 @@ public class ConsultaController implements Serializable{
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response crear(@Valid Consulta consulta) {
+        
             consultaService.crear(consulta);
             return Response.status(Response.Status.CREATED)
                         .build();
@@ -66,16 +67,16 @@ public class ConsultaController implements Serializable{
         
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response eliminar(@Valid Consulta consulta) throws NotFoundException {
+    public Response actualizar(@Valid Consulta consulta) throws NotFoundException {
             consultaService.actualizar(consulta);
             return Response.status(Response.Status.NO_CONTENT)
                         .build();
     } 
     
-    @Path("{idConsulta}")
+    @Path("eliminar/{idConsulta}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response eliminar(@PathParam("consultaId") short consultaId) throws NotFoundException {
+    public Response eliminar(@PathParam("idConsulta") short consultaId) throws NotFoundException {
             consultaService.eliminar(consultaId);
             return Response.status(Response.Status.NO_CONTENT)
                         .build();

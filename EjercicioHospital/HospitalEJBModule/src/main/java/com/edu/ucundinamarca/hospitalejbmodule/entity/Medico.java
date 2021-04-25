@@ -38,7 +38,6 @@ public class Medico implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Null
     private Short id;
     
     @Column(name = "nombre")

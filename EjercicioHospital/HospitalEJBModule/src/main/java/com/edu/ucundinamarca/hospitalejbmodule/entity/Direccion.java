@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,8 +26,7 @@ import javax.validation.constraints.Size;
 public class Direccion implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Null
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)  
     private Short id;
     
     @Column(name = "codigo_postal")

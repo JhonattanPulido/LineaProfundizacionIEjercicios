@@ -37,13 +37,11 @@ import javax.validation.constraints.Null;
 public class Consulta implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Null
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)   
     private Short id;        
     
     @OneToOne
-    @JoinColumn(name = "medico_id")
-    @NotNull(message = "El médico es obligatorio")
+    @JoinColumn(name = "medico_id")    
     private Medico medico;
     
     @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

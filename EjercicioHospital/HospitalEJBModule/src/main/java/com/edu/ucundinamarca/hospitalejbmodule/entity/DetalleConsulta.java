@@ -29,7 +29,6 @@ public class DetalleConsulta implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Null
     private Short id;
     
     @Column(name = "tratamiento")
@@ -43,8 +42,7 @@ public class DetalleConsulta implements Serializable {
     private String diagnostico;        
     
     @ManyToOne  
-    @JoinColumn(name = "consulta_id")
-    @NotNull(message = "La consulta es obligatoria")
+    @JoinColumn(name = "consulta_id", referencedColumnName = "id")    
     private Consulta consulta;
 
     /**

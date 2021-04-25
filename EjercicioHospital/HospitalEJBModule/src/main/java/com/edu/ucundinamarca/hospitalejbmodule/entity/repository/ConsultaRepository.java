@@ -15,4 +15,12 @@ import com.edu.ucundinamarca.hospitalejbmodule.entity.repository.interfaz.IConsu
 @Stateless
 public class ConsultaRepository extends GenericaRepository<Consulta> implements IConsultaRepository {
     
+     @Override
+    public void eliminarConsulta(int id) {
+        em.createNativeQuery("DELETE FROM consultas WHERE id = ?1")
+                .setParameter(1, id)
+                .executeUpdate();
+    }
+
+    
 }

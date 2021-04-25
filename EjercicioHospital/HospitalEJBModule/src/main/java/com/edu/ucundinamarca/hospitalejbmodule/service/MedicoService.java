@@ -48,6 +48,16 @@ public class MedicoService implements IMedicoService {
      */
     @Override
     public void crear(Medico medico) {
+        if (medico.getListaConsultas()!= null) {
+            for (Consulta consulta : medico.getListaConsultas()) {
+                consulta.setMedico(medico);
+                for (DetalleConsulta detalles : consulta.getListaDetallesConsultas()) {
+                    detalles.setConsulta(consulta);
+                }
+               
+            }
+            medico.getDireccion().setMedico(medico);
+        }
         medicoRepository.crear(medico);
     }
 
@@ -63,6 +73,18 @@ public class MedicoService implements IMedicoService {
         medico = medicoRepository.leer("LeerMedico", id);
 
         if (medico != null) {
+            
+                List<Consulta> consultas = medico.getListaConsultas();
+                for (Consulta consulta : consultas) {
+                    
+                    List<DetalleConsulta> detalleCon = consulta.getListaDetallesConsultas();
+                    
+                    for (DetalleConsulta detalleCo : detalleCon) {
+                        detalleCo.setConsulta(null);
+                    }
+                    consulta.setMedico(null);
+                }
+            
             return medico;
         }
         throw new NotFoundException("No se encontra el medico solicitado");

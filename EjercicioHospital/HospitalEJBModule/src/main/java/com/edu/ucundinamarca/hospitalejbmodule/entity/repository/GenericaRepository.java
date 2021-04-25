@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 
 /**
  * Repositorio de genérica
+ *
  * @author Sandra Moreno - Jhonattan Pulido
  * @version 1.0.0
  * @since 23/04/2021
@@ -27,7 +28,6 @@ import javax.persistence.criteria.Root;
 public class GenericaRepository<T> implements IGenericaRepository<T> {
 
     // Variables
-    
     /**
      * Variable de persistencia contra la BD
      */
@@ -38,31 +38,33 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
      * Almacena el tipo de clase que se desea usar
      */
     private final Class<T> classType;
-    
+
     public GenericaRepository() {
         Type t = getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) t;
         classType = (Class) pt.getActualTypeArguments()[0];
-    }        
-    
+    }
+
     // Métodos
-    
     /**
      * Crear un registro
+     *
      * @param t - Objeto con los datos específicos
      */
     @Override
     public void crear(T t) {
         em.persist(t);
-    }        
+    }
 
     /**
      * Leer un registro filtrado por ID
+     *
      * @param id - ID del registro
      * @return Objeto con los datos específicos
      */
     @Override
-    public T leer(String queryName, Short id) throws    NotFoundException {
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public T leer(String queryName, Short id) throws NotFoundException {
         try {
             return (T) em.createNamedQuery(queryName, classType).setParameter("id", id).getSingleResult();
         } catch (NoResultException ex) {
@@ -72,6 +74,7 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
 
     /**
      * Leer todos los registros almacenados
+     *
      * @return Lista de registros
      */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -86,16 +89,18 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
     }
 
     /**
-     * Actualizar un registro     
+     * Actualizar un registro
+     *
      * @param t - Objeto con los datos específicos
      */
     @Override
     public void actualizar(T t) {
         em.merge(t);
     }
-    
+
     /**
-     * Eliminar un registro     
+     * Eliminar un registro
+     *
      * @param t - Objeto con los datos específicos
      */
     @Override
@@ -105,13 +110,14 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
 
     /**
      * Obtener cantidad de registros a partir de un ID
+     *
      * @param queryName - Nombre del Query
      * @param id - ID del registro
      * @return Cantidad de registros con el ID
      */
     @Override
     public long cantidadRegistrosId(String queryName, Short id) {
-        return (long)em.createNamedQuery(queryName, long.class).setParameter("id", id).getSingleResult();
-    }        
-    
+        return (long) em.createNamedQuery(queryName, long.class).setParameter("id", id).getSingleResult();
+    }
+
 }

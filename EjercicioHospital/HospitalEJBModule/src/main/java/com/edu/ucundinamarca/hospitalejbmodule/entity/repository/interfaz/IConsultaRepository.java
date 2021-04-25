@@ -14,4 +14,7 @@ import com.edu.ucundinamarca.hospitalejbmodule.entity.Consulta;
 @Local
 public interface IConsultaRepository extends IGenericaRepository<Consulta> {
     
+    
+    public void eliminarConsulta(int id);
+    
 }

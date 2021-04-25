@@ -44,21 +44,21 @@ public class MedicoController implements Serializable {
     }       
     
     
-    @Path("{idMedico}")
+    @Path("leer/{idMedico}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response leer(@PathParam("medicoId") Short medicoId) throws NotFoundException{
+    public Response leer(@PathParam("idMedico") Short medicoId) throws NotFoundException{
             Medico medico = medicoService.leer(medicoId);
             return Response.status(Response.Status.OK)
                         .entity(medico)
                         .build();
     }       
     
-    
+    @Path("/crear")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response crear(@Valid Medico medico) {
+    public Response crear(Medico medico) {
             medicoService.crear(medico);
             return Response.status(Response.Status.CREATED)
                         .build();
