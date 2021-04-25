@@ -2,6 +2,7 @@
 package com.edu.ucundinamarca.hospitalejbmodule.entity;
 
 // Librerías
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -102,6 +103,7 @@ public class Medico implements Serializable {
         this.correoElectronico = correoElectronico;
     }
 
+    @JsonIgnore
     public List<Consulta> getListaConsultas() {
         return listaConsultas;
     }

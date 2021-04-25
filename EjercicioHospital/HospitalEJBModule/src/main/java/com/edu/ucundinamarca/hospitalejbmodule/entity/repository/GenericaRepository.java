@@ -7,6 +7,8 @@ import com.edu.ucundinamarca.hospitalejbmodule.exception.NotFoundException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -72,6 +74,7 @@ public class GenericaRepository<T> implements IGenericaRepository<T> {
      * Leer todos los registros almacenados
      * @return Lista de registros
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     @Override
     public List<T> leer(String queryName) {
         CriteriaBuilder cb = em.getCriteriaBuilder();

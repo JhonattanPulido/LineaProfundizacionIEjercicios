@@ -41,10 +41,6 @@ public class Consulta implements Serializable {
     @Null
     private Short id;        
     
-    @Column(name = "fecha")
-    @Null
-    private LocalDateTime fecha;
-    
     @OneToOne
     @JoinColumn(name = "medico_id")
     @NotNull(message = "El médico es obligatorio")
@@ -68,14 +64,6 @@ public class Consulta implements Serializable {
 
     public void setId(Short id) {
         this.id = id;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
     }
 
     public Medico getMedico() {

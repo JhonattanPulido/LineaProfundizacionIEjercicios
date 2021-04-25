@@ -2,6 +2,7 @@
 package com.edu.ucundinamarca.hospitalejbmodule.entity;
 
 // Librerías
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
@@ -41,8 +42,7 @@ public class DetalleConsulta implements Serializable {
     @Size(min = 2, max = 50, message = "El diagnóstico debe tener mínimo 2 y máximo 50 caracteres")
     private String diagnostico;        
     
-    @ManyToOne
-    @JsonbTransient
+    @ManyToOne  
     @JoinColumn(name = "consulta_id")
     @NotNull(message = "La consulta es obligatoria")
     private Consulta consulta;
@@ -80,6 +80,7 @@ public class DetalleConsulta implements Serializable {
         this.diagnostico = diagnostico;
     }
 
+   
     public Consulta getConsulta() {
         return consulta;
     }
