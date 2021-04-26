@@ -5,6 +5,8 @@ package com.edu.ucundinamarca.hospitalejbmodule.service;
 import com.edu.ucundinamarca.hospitalejbmodule.entity.Consulta;
 import com.edu.ucundinamarca.hospitalejbmodule.entity.DetalleConsulta;
 import com.edu.ucundinamarca.hospitalejbmodule.entity.Medico;
+import com.edu.ucundinamarca.hospitalejbmodule.entity.repository.interfaz.IConsultaRepository;
+import com.edu.ucundinamarca.hospitalejbmodule.entity.repository.interfaz.IDetalleConsultaRepository;
 import com.edu.ucundinamarca.hospitalejbmodule.entity.repository.interfaz.IMedicoRepository;
 import com.edu.ucundinamarca.hospitalejbmodule.exception.NotFoundException;
 import com.edu.ucundinamarca.hospitalejbmodule.service.interfaz.IMedicoService;
@@ -39,6 +41,15 @@ public class MedicoService implements IMedicoService {
      */
     @EJB
     private IMedicoRepository medicoRepository;
+    
+        /**
+     * EJB de consulta
+     */
+    @EJB
+    private IConsultaRepository consultaRepository;
+    
+    @EJB
+    private IDetalleConsultaRepository detalleRepository;
 
     // Métodos
     /**
@@ -144,12 +155,16 @@ public class MedicoService implements IMedicoService {
      */
     @Override
     public void eliminar(Short id) throws NotFoundException {
-
-        if (medicoRepository.cantidadRegistrosId("QMedicos", medico.getId()) == 1) {
-            medicoRepository.eliminar(medico);
-        }
-
-        throw new NotFoundException("No se encontró el medico");
+        medico = this.leer(id);
+        List<Consulta> consultas = medico.getListaConsultas();
+        for (Consulta consulta : consultas) {
+                for (DetalleConsulta detalles : consulta.getListaDetallesConsultas()) {
+                    detalleRepository.eliminarDetalle(detalles.getId());
+                }
+               consultaRepository.eliminarConsulta(consulta.getId());
+            }
+        
+        medicoRepository.eliminar(medico);
     }
 
 }

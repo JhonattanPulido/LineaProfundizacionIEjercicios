@@ -72,7 +72,7 @@ public class MedicoController implements Serializable {
                         .build();
     } 
     
-    @Path("{medicoId}")
+    @Path("eliminar/{medicoId}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response eliminar(@PathParam("medicoId") short medicoId) throws NotFoundException {

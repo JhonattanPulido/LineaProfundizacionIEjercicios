@@ -42,6 +42,7 @@ public class ConsultaService implements IConsultaService {
 
     @EJB
     private IDetalleConsultaRepository detalleRepository;
+    
 
     // Métodos
     /**
