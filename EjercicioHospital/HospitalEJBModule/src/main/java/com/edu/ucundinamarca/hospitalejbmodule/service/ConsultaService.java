@@ -124,7 +124,9 @@ public class ConsultaService implements IConsultaService {
      */
     @Override
     public void actualizar(Consulta consulta) throws NotFoundException {
-
+        
+        consulta = this.leer(consulta.getId());
+        
         if (consultaRepository.cantidadRegistrosId("QConsultas", consulta.getId()) == 1) {
             consultaRepository.actualizar(consulta);
         }

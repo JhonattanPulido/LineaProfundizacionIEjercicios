@@ -139,7 +139,7 @@ public class MedicoService implements IMedicoService {
      */
     @Override
     public void actualizar(Medico medico) throws NotFoundException {
-
+        medico = this.leer(medico.getId());
         if (medicoRepository.cantidadRegistrosId("QMedicos", medico.getId()) == 1) {
             medicoRepository.actualizar(medico);
         }
